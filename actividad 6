@@ -1,0 +1,154 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class CalculadoraGeometrica {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<String> resultados = new ArrayList<>();
+        boolean continuar = true;
+
+        while (continuar) {
+            try {
+                // Mostrar el menú de figuras geométricas
+                System.out.println("\nSeleccione la figura geométrica:");
+                System.out.println("1. Círculo");
+                System.out.println("2. Cuadrado");
+                System.out.println("3. Triángulo");
+                System.out.println("4. Rectángulo");
+                System.out.println("5. Pentágono");
+                System.out.println("6. Ver Resultados");
+                System.out.println("7. Salir");
+                System.out.print("Opción: ");
+                int opcionFigura = scanner.nextInt();
+
+                if (opcionFigura == 7) {
+                    System.out.println("Saliendo del programa...");
+                    break;
+                }
+
+                if (opcionFigura == 6) {
+                    mostrarResultados(resultados);
+                    continue;
+                }
+
+                // Validar la entrada para la operación
+                int opcionOperacion = 0;
+                while (opcionOperacion != 1 && opcionOperacion != 2) {
+                    System.out.println("\n¿Qué operación desea realizar?");
+                    System.out.println("1. Calcular Área");
+                    System.out.println("2. Calcular Perímetro");
+                    System.out.print("Opción: ");
+                    opcionOperacion = scanner.nextInt();
+                    if (opcionOperacion != 1 && opcionOperacion != 2) {
+                        System.out.println("Por favor, seleccione una opción válida (1 o 2).");
+                    }
+                }
+
+                double resultado = 0;
+                String descripcion = "";
+
+                switch (opcionFigura) {
+                    case 1: // Círculo
+                        System.out.print("Ingrese el radio del círculo: ");
+                        double radio = scanner.nextDouble();
+                        if (opcionOperacion == 1) {
+                            resultado = Math.PI * Math.pow(radio, 2);
+                            descripcion = String.format("Área del Círculo (radio %.2f): %.2f", radio, resultado);
+                        } else {
+                            resultado = 2 * Math.PI * radio;
+                            descripcion = String.format("Perímetro del Círculo (radio %.2f): %.2f", radio, resultado);
+                        }
+                        break;
+
+                    case 2: // Cuadrado
+                        System.out.print("Ingrese el lado del cuadrado: ");
+                        double ladoCuadrado = scanner.nextDouble();
+                        if (opcionOperacion == 1) {
+                            resultado = Math.pow(ladoCuadrado, 2);
+                            descripcion = String.format("Área del Cuadrado (lado %.2f): %.2f", ladoCuadrado, resultado);
+                        } else {
+                            resultado = 4 * ladoCuadrado;
+                            descripcion = String.format("Perímetro del Cuadrado (lado %.2f): %.2f", ladoCuadrado, resultado);
+                        }
+                        break;
+
+                    case 3: // Triángulo
+                        System.out.print("Ingrese la base del triángulo: ");
+                        double base = scanner.nextDouble();
+                        System.out.print("Ingrese la altura del triángulo: ");
+                        double altura = scanner.nextDouble();
+                        if (opcionOperacion == 1) {
+                            resultado = (base * altura) / 2;
+                            descripcion = String.format("Área del Triángulo (base %.2f, altura %.2f): %.2f", base, altura, resultado);
+                        } else {
+                            System.out.print("Ingrese el lado 1 del triángulo: ");
+                            double lado1 = scanner.nextDouble();
+                            System.out.print("Ingrese el lado 2 del triángulo: ");
+                            double lado2 = scanner.nextDouble();
+                            System.out.print("Ingrese el lado 3 del triángulo: ");
+                            double lado3 = scanner.nextDouble();
+                            resultado = lado1 + lado2 + lado3;
+                            descripcion = String.format("Perímetro del Triángulo (lados %.2f, %.2f, %.2f): %.2f", lado1, lado2, lado3, resultado);
+                        }
+                        break;
+
+                    case 4: // Rectángulo
+                        System.out.print("Ingrese el largo del rectángulo: ");
+                        double largo = scanner.nextDouble();
+                        System.out.print("Ingrese el ancho del rectángulo: ");
+                        double ancho = scanner.nextDouble();
+                        if (opcionOperacion == 1) {
+                            resultado = largo * ancho;
+                            descripcion = String.format("Área del Rectángulo (largo %.2f, ancho %.2f): %.2f", largo, ancho, resultado);
+                        } else {
+                            resultado = 2 * (largo + ancho);
+                            descripcion = String.format("Perímetro del Rectángulo (largo %.2f, ancho %.2f): %.2f", largo, ancho, resultado);
+                        }
+                        break;
+
+                    case 5: // Pentágono
+                        System.out.print("Ingrese el lado del pentágono: ");
+                        double ladoPentagono = scanner.nextDouble();
+                        if (opcionOperacion == 1) {
+                            System.out.print("Ingrese la apotema del pentágono: ");
+                            double apotema = scanner.nextDouble();
+                            resultado = (5 * ladoPentagono * apotema) / 2;
+                            descripcion = String.format("Área del Pentágono (lado %.2f, apotema %.2f): %.2f", ladoPentagono, apotema, resultado);
+                        } else {
+                            resultado = 5 * ladoPentagono;
+                            descripcion = String.format("Perímetro del Pentágono (lado %.2f): %.2f", ladoPentagono, resultado);
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Opción no válida. Por favor, seleccione una opción entre 1 y 7.");
+                        continue;
+                }
+
+                resultados.add(descripcion);
+                System.out.println(descripcion);
+                System.out.println("¿Desea realizar otra operación? (s/n): ");
+                char continuarRespuesta = scanner.next().toLowerCase().charAt(0);
+                continuar = continuarRespuesta == 's';
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Entrada no válida. Por favor, intente nuevamente.");
+                scanner.next();
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static void mostrarResultados(ArrayList<String> resultados) {
+        System.out.println("\nResultados guardados:");
+        if (resultados.isEmpty()) {
+            System.out.println("No hay resultados para mostrar.");
+        } else {
+            for (String resultado : resultados) {
+                System.out.println(resultado);
+            }
+        }
+    }
+}
